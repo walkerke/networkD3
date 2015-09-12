@@ -109,7 +109,7 @@ HTMLWidgets.widget({
             .style("opacity", 0.9)
             .style("cursor", "move")
             .append("title")
-            .text(function(d) { return d.name + "\\n" + format(d.value); });
+            .text(function(d) { return d.name + "\n" + format(d.value); });
 
         node.append("svg:text")
             .attr("x", -6)
