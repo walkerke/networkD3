@@ -98,7 +98,7 @@ HTMLWidgets.widget({
 
         link.append("title")
             .text(function(d) { return d.source.name + " → " + d.target.name +
-                "\\n" + format(d.value); });
+                "\n" + format(d.value); });
 
         node.append("rect")
             .attr("height", function(d) { return d.dy; })
