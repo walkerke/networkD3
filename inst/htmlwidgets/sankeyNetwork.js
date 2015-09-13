@@ -129,5 +129,50 @@ HTMLWidgets.widget({
             sankey.relayout();
             link.attr("d", path);
         }
+        
+        function highlight_node_links(node,i){
+
+        var remainingNodes=[],
+            nextNodes=[];
+
+        var stroke_opacity = 0;
+        if( d3.select(this).attr("data-clicked") == "1" ){
+          d3.select(this).attr("data-clicked","0");
+          stroke_opacity = 0.2;
+        }else{
+          d3.select(this).attr("data-clicked","1");
+          stroke_opacity = 0.5;
+        }
+
+        var traverse = [{
+                          linkType : "sourceLinks",
+                          nodeType : "target"
+                        },{
+                          linkType : "targetLinks",
+                          nodeType : "source"
+                        }];
+    
+        traverse.forEach(function(step){
+          node[step.linkType].forEach(function(link) {
+            remainingNodes.push(link[step.nodeType]);
+            highlight_link(link.id, stroke_opacity);
+          });
+    
+          while (remainingNodes.length) {
+            nextNodes = [];
+            remainingNodes.forEach(function(node) {
+              node[step.linkType].forEach(function(link) {
+                nextNodes.push(link[step.nodeType]);
+                highlight_link(link.id, stroke_opacity);
+              });
+            });
+            remainingNodes = nextNodes;
+          }
+        });
+      }
+    
+      function highlight_link(id,opacity){
+          d3.select("#link-"+id).style("stroke-opacity", opacity);
+    }
     },
 });
